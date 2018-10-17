@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Document</title>
+ <style>
+  span:empty::before{
+    content: '未知'
+  }
+ </style>
+ <script src='./jquery.js'></script>
+</head>
+<body>
+ <div>
+  <p>当前浏览器是否支持sw：<span></span></p>
+  <p>当前状态：<span></span></p>
+  <p>当前serviceWorker的状态：<span></span></p>
+ </div>
+</body>
+<script>
+ if ('serviceWorker' in navigator) {
+  $('span').eq(0).text('支持')
+  navigator.serviceWorker.register('./serviceWorker.js', {
+    scope: './'
+  })
+  .then(registration => {
+    let serviceWorker
+    if (registration.installing) {
+      serviceWorker = registration.installing
+      $('span').eq(1).text('installing')
+    } else if (registration.waiting) {
+      serviceWorker = registration.waiting
+      $('span').eq(1).text('waiting')
+    } else if (registration.active) {
+      serviceWorker = registration.active
+      $('span').eq(1).text('active')
+    }
+    if (serviceWorker) {
+      serviceWorker.addEventListener('statechange', (e) => {
+        $('span').eq(2).text(`状态变为：${e.target.state}`)
+      })
+    }
+  })
+  .catch((err) => {
+    console.error(err)
+  })
+ } else {
+  $('span').eq(0).text('不支持')
+ }
+</script>
+</html>
