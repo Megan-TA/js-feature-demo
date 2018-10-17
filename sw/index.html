@@ -10,7 +10,7 @@
     content: '未知'
   }
  </style>
- <script src='./jquery.js'></script>
+ <script src='/jquery.js'></script>
 </head>
 <body>
  <div>
@@ -18,14 +18,14 @@
   <p>当前状态：<span></span></p>
   <p>当前serviceWorker的状态：<span></span></p>
 
-  <img src="./code.png" alt="testImg">
+  <img src="/code.png" alt="testImg">
  </div>
 </body>
 <script>
  if ('serviceWorker' in navigator) {
   $('span').eq(0).text('支持')
-  navigator.serviceWorker.register('./serviceWorker.js', {
-    scope: './'
+  navigator.serviceWorker.register('/serviceWorker.js', {
+    scope: '/'
   })
   .then(registration => {
     let serviceWorker
